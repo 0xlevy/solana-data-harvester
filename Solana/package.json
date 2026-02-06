@@ -1,0 +1,20 @@
+{
+  "name": "solana-modules",
+  "version": "1.0.0",
+  "description": "Solana PDA and Escrow modules for Data Harvester",
+  "main": "pdas.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "ts-node test.ts"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.29.0",
+    "@solana/spl-token": "^0.3.9",
+    "@solana/web3.js": "^1.87.6"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
