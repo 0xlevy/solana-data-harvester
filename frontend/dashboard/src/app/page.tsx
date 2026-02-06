@@ -129,12 +129,19 @@ const mockData: DashboardData = {
 
 export default function Home() {
   const [data, setData] = useState<DashboardData>(mockData);
-  const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
+  const [lastUpdate, setLastUpdate] = useState<string>('');
   const [isLive, setIsLive] = useState<boolean>(true);
+  const [mounted, setMounted] = useState<boolean>(false);
+
+  // Handle client-side mounting to avoid hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+    setLastUpdate(new Date().toLocaleTimeString());
+  }, []);
 
   // Simulate live updates
   useEffect(() => {
-    if (!isLive) return;
+    if (!isLive || !mounted) return;
 
     const interval = setInterval(() => {
       // Simulate data fluctuation
@@ -154,11 +161,11 @@ export default function Home() {
           },
         },
       }));
-      setLastUpdate(new Date());
+      setLastUpdate(new Date().toLocaleTimeString());
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [isLive]);
+  }, [isLive, mounted]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -182,7 +189,7 @@ export default function Home() {
             {isLive ? '● Live' : '○ Paused'}
           </button>
           <span className="text-sm text-gray-500">
-            Last update: {lastUpdate.toLocaleTimeString()}
+            Last update: {mounted ? lastUpdate : '--:--:--'}
           </span>
         </div>
       </div>
